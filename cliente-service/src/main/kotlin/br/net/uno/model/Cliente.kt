@@ -1,25 +1,21 @@
 package br.net.uno.model
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 import javax.validation.constraints.Size
 
-@Entity
+@Entity(name = "clientes")
 data class Cliente(
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     val id: Long,
 
-    @Size(max = 50)
+    @field:Size(max = 50)
     val nome: String,
 
-    @Size(min = 14)
+    @field:Size(max = 14)
     val documento: String,
 
-    @Size(max = 50)
+    @field:Size(max = 50)
     val endereco: String
 
 )
