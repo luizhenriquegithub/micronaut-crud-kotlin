@@ -10,12 +10,12 @@ data class Cliente(
     val id: Long,
 
     @field:Size(max = 50)
-    val nome: String,
+    var nome: String,
 
     @field:Size(max = 14)
-    val documento: String,
+    var documento: String,
 
     @field:Size(max = 50)
-    val endereco: String
+    var endereco: String
 
 )
