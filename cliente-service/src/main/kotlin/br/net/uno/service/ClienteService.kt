@@ -1,7 +1,10 @@
 package br.net.uno.service
 
+import br.net.uno.exception.RegistroNaoEncontradoException
 import br.net.uno.model.Cliente
 import br.net.uno.repository.ClienteRepository
+import io.micronaut.data.model.Page
+import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
 import javax.transaction.Transactional
 
@@ -14,21 +17,29 @@ open class ClienteService(
         return clienteRepository.save(cliente)
     }
 
-    fun findAll(): List<Cliente> {
-        return clienteRepository.findAll()
+    fun findAll(nome: String?, pageable: Pageable): Page<Cliente> {
+        var clientes = if (nome == null) {
+            clienteRepository.findAll(pageable)
+        } else {
+            clienteRepository.findByNome(nome,pageable)
+        }
+        return clientes
     }
 
     fun findById(id: Long): Cliente {
-        return clienteRepository.findById(id).get()
+        return clienteRepository.findById(id).orElseThrow{
+            RegistroNaoEncontradoException("Registro não encontrado")
+        }
     }
 
     fun delete(id: Long) {
-        clienteRepository.deleteById(id)
+        var clienteDB = findById(id)
+        clienteRepository.delete(clienteDB)
     }
 
     @Transactional
     open fun update(id: Long, cliente: Cliente) {
-        val clienteDB = clienteRepository.findById(id).get()
+        val clienteDB = findById(id)
         clienteDB.nome = cliente.nome
         clienteDB.documento = cliente.documento
         clienteDB.endereco = cliente.endereco

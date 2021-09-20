@@ -2,6 +2,8 @@ package br.net.uno.controller
 
 import br.net.uno.model.Cliente
 import br.net.uno.service.ClienteService
+import io.micronaut.data.model.Page
+import io.micronaut.data.model.Pageable
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.*
 
@@ -17,8 +19,8 @@ class ClienteController(
     }
 
     @Get
-    fun findAll(): List<Cliente> {
-        return clienteService.findAll()
+    fun findAll(@QueryValue nome: String?, pageable: Pageable): Page<Cliente> {
+        return clienteService.findAll(nome, pageable)
     }
 
     @Get("/{id}")
