@@ -39,5 +39,10 @@ class ClienteController(
         clienteService.update(id, cliente)
     }
 
+    @Get("/pesquisar")
+    fun listar(@QueryValue nome: String?): List<Cliente> {
+        return clienteService.listar(nome)
+    }
+
 
 }

@@ -18,7 +18,7 @@ open class ClienteService(
     }
 
     fun findAll(nome: String?, pageable: Pageable): Page<Cliente> {
-        var clientes = if (nome == null) {
+        val clientes = if (nome == null) {
             clienteRepository.findAll(pageable)
         } else {
             clienteRepository.findByNome(nome,pageable)
@@ -33,7 +33,7 @@ open class ClienteService(
     }
 
     fun delete(id: Long) {
-        var clienteDB = findById(id)
+        val clienteDB = findById(id)
         clienteRepository.delete(clienteDB)
     }
 
@@ -46,5 +46,8 @@ open class ClienteService(
         clienteRepository.save(clienteDB)
     }
 
+    fun listar(nome: String?): List<Cliente> {
+        return clienteRepository.listaComImplementacao(nome)
+    }
 
 }
